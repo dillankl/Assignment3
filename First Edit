@@ -46,6 +46,17 @@ class TestSignalDetection(unittest.TestCase):
         expected = -0.463918426665941
         obtained = sd.criterion()
         self.assertAlmostEqual(obtained, expected, places=6)
+    #Writing a unit test to test corruption
+    def test_corruption(self):
+        sd   = SignalDetection(15, 5, 15, 5)
+        sd.hits = 1000
+        sd.misses= 200
+        sd.falseAlarms = 1976
+        sd.correctRejections = 2000
+        expected = sd.d_prime()
+        obtained = sd.d_prime()
+        self.assertAlmostEqual(obtained, expected, places=6)
+ 
 
 if __name__ == '__main__':
     unittest.main(argv=['first-arg-is-ignored'], exit=False)
