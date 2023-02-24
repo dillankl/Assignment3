@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.stats import norm
 import unittest
-
+import matplotlib.pyplot as plt
 
 class SignalDetection:
     def __init__(self, hits, misses, falseAlarms, correctRejections):
@@ -29,10 +29,15 @@ class SignalDetection:
     def __mul__(self,scalar):
         return SignalDetection( self.hits * scalar, self.misses * scalar, self.falseAlarms * scalar,
         self.correctRejections * scalar)
-    
-        
-    
-    
+    #plotting the ROC curve
+    def plot_roc(self):
+        plt.plot([0,self.falseAlarmrate(),1],[0,self.hitRate(),1])
+        plt.xlabel ('False Alarm Rate')
+        plt.ylabel ('Hit Rate')
+        plt.title ('ROC Plot')
+        plt.show()
+ 
+       
 class TestSignalDetection(unittest.TestCase):
     def test_d_prime_zero(self):
         sd   = SignalDetection(15, 5, 15, 5)
@@ -60,7 +65,7 @@ class TestSignalDetection(unittest.TestCase):
         sd.hits = 1000
         sd.misses= 200
         sd.falseAlarms = 1976
-        sd.correctRejections = 2000
+        sd.correctRejections =2000
         expected = sd.d_prime()
         obtained = sd.d_prime()
         self.assertAlmostEqual(obtained, expected, places=6)
@@ -80,7 +85,8 @@ class TestSignalDetection(unittest.TestCase):
         self.assertEqual(obtained, expected)
         
 
- 
-
 if __name__ == '__main__':
     unittest.main(argv=['first-arg-is-ignored'], exit=False)
+    
+
+
